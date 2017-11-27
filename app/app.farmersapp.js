@@ -10,7 +10,7 @@
 
 	$routeProvider
 	   .when('/', {
-        templateUrl: '/farmerconnect/app/login/login.html',
+        templateUrl: 'app/login/login.html',
         resolve: {
           load:['$location',function($location){
 //            if(!window.prescriptionSubmitted)
@@ -20,24 +20,24 @@
         className: 'login-page'
        })
        .when('/admin',{
-         templateUrl: '/farmerconnect/app/admin/RFQ/RFQ.html',
+         templateUrl: 'app/admin/RFQ/RFQ.html',
          className: 'admin-rfq-page'
        })
        .when('/produceList',{
-         templateUrl: '/farmerconnect/app/admin/produceList/produceList.html',
+         templateUrl: 'app/admin/produceList/produceList.html',
          className: 'admin-produce-list-page'
        })
        .when('/supplier',{
-         templateUrl: '/farmerconnect/app/supplier/viewRFQ/viewRFQ.html',
+         templateUrl: 'app/supplier/viewRFQ/viewRFQ.html',
          className: 'supplier-view-rfq-page'
        })
        
        .when('/supplierQuotes',{
-         templateUrl: '/farmerconnect/app/supplier/myQuotes/myQuotes.html',
+         templateUrl: 'app/supplier/myQuotes/myQuotes.html',
          className: 'supplier-my-quotes'
        })
        .when('/supplierProduce',{
-         templateUrl: '/farmerconnect/app/supplier/myProduce/myProduce.html',
+         templateUrl: 'app/supplier/myProduce/myProduce.html',
          className: 'supplier-my-produce'
        })
        
