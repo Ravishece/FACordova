@@ -114,7 +114,8 @@
 
 		function getAddress() {
 			var deferred = $q.defer();
-			var serviceURL = "http://postalpincode.in/api/pincode/560103";
+			//var serviceURL = "http://postalpincode.in/api/pincode/560103";
+			var serviceURL = "http://jsonplaceholder.typicode.com/posts";
 			
 			var headers = {
 				"Content-Type" : "application/json"
