@@ -1,0 +1,156 @@
+<div class="col-sm-12 main-section"
+	ng-controller="myQuotesCtrl as myQuotesCtrl">
+
+	<uib-tabset active="active" class="my-tabs"> 
+		<uib-tab index="0" >
+			<uib-tab-heading>
+				<span  href="" class="my-tabs-title">
+                  <span class="glyphicon glyphicon-exclamation-sign"></span>
+                  <span class="tab-title">Pending Quotes</span>
+                  <span class="badge">{{myQuotesCtrl.quotesPendingCount}}</span>
+                </span> 
+			</uib-tab-heading>
+			<div class="main-tabs">
+				<div class="tab-pane active">
+
+			<ul class="media-list rfq-list">
+				<li class="media" ng-repeat="quote in myQuotesCtrl.quotesPending">
+					<a class="pull-right" href=""> <img
+						class="media-object rfq-img"
+						ng-src="{{quote.rfq.product.productImageLocation}}"
+						alt="">
+				</a>
+					<div class="media-body">
+						<h4 class="media-heading">{{quote.product.productName}}</h4>
+						<div>
+							<p>{{quote.description}}</p>
+							<p>Quantity : {{quote.quantity}}</p>
+							<p>Quoted Price : {{quote.unitPrice}}</p>
+							<p>RFQ Close Date : {{quote.rfq.closeDate | date }}</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</uib-tab> <uib-tab index="1">
+	<uib-tab-heading> 
+		<span href=""  class="my-tabs-title"> <span class="glyphicon glyphicon-ok-circle"></span> <span
+		class="tab-title">Accepted Quotes</span> <span class="badge accepted-quotes">{{myQuotesCtrl.quotesAcceptedCount}}</span>
+		</span> 
+	</uib-tab-heading>
+	<div class="main-tabs">
+		<div class="tab-pane">
+
+			<ul class="media-list rfq-list">
+				<li class="media" ng-repeat="quote in myQuotesCtrl.quotesAccepted">
+					<a class="pull-right" href=""> <img
+						class="media-object rfq-img"
+						ng-src="{{quote.rfq.product.productImageLocation}}"
+						alt="">
+				</a>
+					<div class="media-body">
+						<h4 class="media-heading">{{quote.product.productName}}</h4>
+						<div>
+							<p>{{quote.description}}</p>
+							<p>Quantity : {{quote.quantity}}</p>
+							<p>Quoted Price : {{quote.unitPrice}}</p>
+							<p>RFQ Close Date : {{quote.rfq.closeDate | date }}</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</uib-tab> <uib-tab index="2">
+	<uib-tab-heading> 
+		<span href=""  class="my-tabs-title"> <span class="glyphicon glyphicon-remove-circle"></span> <span
+		class="tab-title">Rejected Quotes</span> <span class="badge rejected-quotes">{{myQuotesCtrl.quotesRejectedCount}}</span>
+		</span> 
+	</uib-tab-heading>
+	<div class="main-tabs">
+		<div class="tab-pane">
+
+			<ul class="media-list rfq-list">
+				<li class="media" ng-repeat="quote in myQuotesCtrl.quotesRejected">
+					<a class="pull-right" href=""> <img
+						class="media-object rfq-img"
+						ng-src="{{quote.rfq.product.productImageLocation}}"
+						alt="">
+				</a>
+					<div class="media-body">
+						<h4 class="media-heading">{{quote.product.productName}}</h4>
+						<div>
+							<p>{{quote.description}}</p>
+							<p>Quantity : {{quote.quantity}}</p>
+							<p>Quoted Price : {{quote.unitPrice}}</p>
+							<p>RFQ Close Date : {{quote.rfq.closeDate | date }}</p>
+							<p>Reason for Rejection : {{quote.remark }}</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</uib-tab> </uib-tabset>
+
+
+	<!-- Modal start - Create RFQ Modal  -->
+	<div id="createQuoteModal" class="modal fade submit-quote"
+		role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Request for Quote</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label class="col-form-label" for="productNameInput">Product
+								Name</label> <input type="text" class="form-control"
+								ng-value="myQuotesCtrl.selectedRFQProduct" id="productNameInput"
+								disabled placeholder="Product Name">
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="quantityInput">Quantity</label>
+							<div class="input-group">
+								<input type="text" class="form-control"
+									ng-model="myQuotesCtrl.quoteQuantity" placeholder="Quantity">
+								<span class="input-group-addon">Kgs</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="priceInput">Unit Price</label>
+							<div class="input-group">
+								<span class="input-group-addon">Rs.</span> <input type="text"
+									class="form-control" ng-model="myQuotesCtrl.quoteUnitPrice"
+									placeholder="Price">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="startDateInput">Harvest
+								Date</label>
+							<div class="input-group">
+								<input type="text" class="form-control" uib-datepicker-popup
+									ng-model="myQuotesCtrl.quoteHarvestDate"
+									is-open="myQuotesCtrl.popup1.opened"
+									datepicker-options="myQuotesCtrl.dateOptions"
+									close-text="Close" /> <span class="input-group-addon"
+									ng-click="myQuotesCtrl.open1()"><i
+									class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal"
+						ng-click="myQuotesCtrl.submitQuote()">Confirm</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal end - Create RFQ Modal -->
+
+</div>

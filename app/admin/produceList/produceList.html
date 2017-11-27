@@ -1,0 +1,168 @@
+<div class="col-sm-12 main-section" ng-controller="produceSearchCtrl as produceSearchCtrl">
+   <div class="sr-icon-section">
+       <div class="row">
+         <!-- <div class="col-sm-10 sr-summary-section">
+           10 results found for the search term 'potato'
+         </div> -->
+         <div class="col-sm-12">
+           <ul class="sr-icon-list">
+             <li class="map-icon ng-class:{ 'active': produceSearchCtrl.activeIcon === 'map' };" ng-click="produceSearchCtrl.changeIcon('map')">
+               <a href="">
+                 <span class="glyphicon glyphicon-map-marker"></span>
+               </a>
+             </li>
+             <li class="grid-icon ng-class:{ 'active': produceSearchCtrl.activeIcon=== 'grid' };" ng-click="produceSearchCtrl.changeIcon('grid')">
+               <a href="">
+                 <span class="glyphicon glyphicon-th-large"></span>
+               </a>
+             </li>
+             <li class="list-icon ng-class:{ 'active': produceSearchCtrl.activeIcon === 'list' };" ng-click="produceSearchCtrl.changeIcon('list')">
+               <a href="">
+                 <span class="glyphicon glyphicon-list"></span>
+               </a>
+             </li>
+           </ul>
+         </div>
+       </div>
+   </div>
+
+   <div class="sr-main-section">
+     <div class="row">
+       <div class="col-sm-3 sr-filter-section">
+         <h2>Refine By :</h2>
+         <div class="filter-category-section">
+           <!-- <h3>Category</h3> -->
+           <div>
+           	<span class="clear-filter-produce-list" ng-click="produceSearchCtrl.clearProduceFilterClick()">Clear All Filters</span>
+           </div>
+           <div class="row">
+             <ul class="filter-list col-sm-12 col-xs-4">
+               <li>
+                 <label>Category</label>
+               </li>
+               <li ng-repeat="category in produceSearchCtrl.filterCategories">
+                 <input type="radio" name="filterCategory" ng-value="category.productCategoryName" id="category.productCategoryName"
+                 ng-click="produceSearchCtrl.onFilterCategorySelect(category)" />
+                 <label for="{{category.productCategoryName}}">{{category.productCategoryName}}</label>
+               </li>
+             </ul>
+             <!-- <h3>Sub-Category</h3> -->
+             <ul class="filter-list col-sm-12 col-xs-4" ng-show="produceSearchCtrl.showfilterSubCategories">
+               <li>
+                 <label>Sub-Category</label>
+               </li>
+               <li ng-repeat="subCategory in produceSearchCtrl.filterSubCategories">
+                 <input type="radio" name="filterSubCategory" ng-value="subCategory.productSubCategoryName" id="{{subCategory.productSubCategoryName}}"
+                  ng-click="produceSearchCtrl.onFilterSubCategorySelect(subCategory)" />
+                 <label for="id{{subCategory.productSubCategoryName}}">{{subCategory.productSubCategoryName}}</label>
+               </li> 
+             </ul>
+           </div>
+           
+           <!-- <h3>Country</h3> -->
+           <div class="row">
+             <ul class="filter-list col-sm-12 col-xs-4">
+               <li>
+                 <label>Country</label>
+               </li>
+               <li ng-repeat="country in produceSearchCtrl.filterCountries">
+                 <input type="radio" name="filterCountry" ng-value="country" id="id{{country}}" 
+                 ng-click="produceSearchCtrl.onFilterCountrySelect(country)" />
+                 <label for="id{{country}}">{{country}}</label>
+               </li>
+             </ul>
+             <!-- <h3>State</h3> -->
+             <ul class="filter-list col-sm-12 col-xs-4" ng-show="produceSearchCtrl.showfilterStates">
+               <li>
+                 <label>State</label>
+               </li> 
+               <li ng-repeat="state in produceSearchCtrl.filterStates">
+                 <input type="radio" name="filterState" ng-value="state" id="id{{state}}" 
+                 ng-click="produceSearchCtrl.onFilterStateSelect(state)" />
+                 <label for="id{{state}}">{{state}}</label>
+               </li>
+             </ul>
+           </div>
+         </div>
+       </div>
+       <div class="col-sm-9 sr-content-section">
+       	<div class="no-produce-result" ng-show="produceSearchCtrl.productsArray.length === 0">
+       		Produces not available with selected criteria ! Please try searching with other criterias
+       	</div>
+        
+         <div class="produce-container ng-class:{ 'grid-view': produceSearchCtrl.activeIcon=== 'grid' };" >
+
+           <div class="product-card-wrapper" ng-repeat="product in produceSearchCtrl.productsArray">
+             <div class="product-card">
+                 <div class="row">   
+                     <div class="col-md-3 col-sm-4 col-xs-4 product-img-container">
+                         <figure class="produce-img">
+                             <a href="#">
+                                 <img width="150" height="150" class="product-img" ng-src="{{product.product.productImageLocation}}">
+                             </a>
+                             <figcaption>{{product.product.productName}}</figcaption>
+                         </figure>
+                     </div>       
+     
+                     <div class="col-md-4 col-sm-6 col-xs-4 product-props">
+                         <span class="product-description hide">{{product.description}}</span>                         
+                         <ul>
+                             <li style="display:block"><label>Location :</label><span class="value"> {{product.location.district}} {{product.location.state}}, {{product.location.country}}</span></li>
+                             <li><label>Quantity :</label><span class="value"> {{product.quantity}} {{product.product.productUnit}}</span></li>
+                         </ul>
+                     </div>
+     
+                     <div class="col-md-5 col-sm-6 col-xs-4 product-seller-details">
+                         <h3 class="product-title">
+                             {{product.supplierSRO.firstName}} {{product.supplierSRO.middleName}} {{product.supplierSRO.lastName}}
+                         </h3>                    
+                         <!-- <div class="seller-location">Satna, Madhya Pradesh</div> -->
+                         <div class="seller-email">{{product.supplierSRO.emailId}}</div>
+                         <div class="seller-phone" ng-show="product.supplierSRO.phoneNumber">+91 {{product.supplierSRO.phoneNumber}}</div>
+                         <div class="supplier-communicate-section">
+                             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#contactSupplierModal">
+                             Contact Supplier
+                             </button>
+                             <span class="chat-icon"></span>
+                         </div>
+                     </div>
+                 </div>
+               </div>
+           </div>
+           
+         </div>
+       </div>
+     </div>
+   </div> 
+   
+  <!-- Modal start - Contact Supplier Modal -->
+  <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" id="contactSupplierModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Contact Supplier</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+          	  <div class="form-group">
+                <label class="col-form-label" for="RFQDescription">Message</label>
+                <textarea class="form-control" placeholder="Type in your message for the supplier" />
+              </div>
+              
+              <div class="form-group">
+                <label class="col-form-label" for="RFQDescription">Email Address</label>
+                <input type="text" class="form-control" placeholder="Enter Your Email Address" />
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="produceSearchCtrl.sendInquiryButtonClick()">Send Inquiry Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal end - Contact Supplier Modal -->
+  
+  
+ </div>

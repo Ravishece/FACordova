@@ -1,0 +1,142 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Walmart App - Login</title>
+<link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../styles/styles.css">
+</head>
+<body ng-app="farmersApp">  -->
+<div class="login-form-wrapper" ng-controller="loginCtrl as loginCtrl">
+	<div class="login-title-section">
+		<img src="/farmerconnect/images/walmart-logo.svg" />
+		<h1 ng-show="loginCtrl.showLoginForm">Sign into your account</h1>
+		<h1 ng-show="!loginCtrl.showLoginForm">Create your account</h1>
+	</div>
+	<div class="login-form">
+
+		<div class="tab-content">
+			<div id="login" ng-show="loginCtrl.showLoginForm">
+
+				<form>
+
+					<div class="form-group radio-group">
+						<input type="radio" id="adminRadioField" name="loginRole" checked ng-model="loginCtrl.userRole" value="ADMIN" />
+                 		<label for="adminRadioField">Admin</label>
+                 		
+						<input type="radio" id="supplierRadioField" name="loginRole" ng-model="loginCtrl.userRole" value="SUPPLIER" />
+                 		<label for="supplierRadioField">Supplier</label>
+					</div>
+					
+					<div class="form-group">
+						<input type="text" class="form-control"
+							ng-model="loginCtrl.userId" id="loginEMailAddressValue"
+							placeholder="Email Address / Mobile">
+					</div>
+
+					<div class="form-group">
+						<input type="password" class="form-control"
+							ng-model="loginCtrl.password" id="loginPasswordValue"
+							placeholder="Password">
+					</div>
+
+					<p class="pull-right">
+						<a href="">Forgot Password?</a>
+					</p>
+
+					<div ng-show="loginCtrl.loginServerError"
+						class="error-msg clearfix">Invalid Credentials !</div>
+
+					<button class="btn btn-primary btn-lg"
+						ng-click="loginCtrl.submitLogin()">Sign In</button>
+						
+					<div class="account-msg-container">
+						<span class="account-hr-divider"></span>
+						<span class="account-msg">Don't have an account ?</span>
+						<button class="btn btn-default btn-lg create-account-btn"
+						ng-click="loginCtrl.showLoginForm = !loginCtrl.showLoginForm">
+						Create a new account</button>
+					</div>
+
+				</form>
+			</div>
+
+
+			<div id="signup" ng-show="!loginCtrl.showLoginForm">
+				<!-- <h1>Sign Up for Free</h1> -->
+
+				<form class="signup-form row">
+					
+					<a class="login-back-link" ng-click="loginCtrl.showLoginForm = !loginCtrl.showLoginForm">Back to Login</a>
+					
+					<div class="form-group col-xs-12">
+						<input type="text" class="form-control" ng-model="loginCtrl.registerFirstName"
+							placeholder="First Name">
+					</div>
+
+					<div class="form-group col-xs-12">
+						<input type="text" class="form-control" ng-model="loginCtrl.registerMiddleName"
+							placeholder="Middle Name">
+					</div>
+
+					<div class="form-group col-xs-12">
+						<input type="text" class="form-control" ng-model="loginCtrl.registerLastName"
+							placeholder="Last Name">
+					</div>
+
+					<div class="form-group col-xs-12">
+						<div class="input-group">
+							<span class="input-group-addon">+ 91</span> <input type="text"
+								class="form-control" ng-model="loginCtrl.registerMobileNo"
+								placeholder="Mobile Number">
+						</div>
+					</div>
+
+					<div class="form-group col-xs-12">
+						<input type="text" class="form-control" ng-model="loginCtrl.registerEmailId"
+							placeholder="Email Address">
+					</div>
+
+					<div class="form-group col-xs-12">
+						<input type="password" class="form-control" ng-model="loginCtrl.registerPassword"
+							placeholder="Password">
+					</div>
+
+					<!-- <div class="clearfix"></div>
+
+					<div class="form-group col-xs-12">
+						<input type="text" class="form-control" ng-model="loginCtrl.registerDistrict"
+							placeholder="District">
+					</div>
+
+					<div class="form-group col-xs-12">
+						<input type="text" class="form-control" ng-model="loginCtrl.registerState"
+							placeholder="State">
+					</div>
+
+					<div class="form-group col-xs-12">
+						<input type="text" class="form-control" ng-model="loginCtrl.registerCountry"
+							placeholder="Country">
+					</div> -->
+
+					<div class="form-group col-xs-12">
+						<button type="submit" class="btn btn-primary btn-lg" ng-click="loginCtrl.submitRegistration()">
+						Create Account</button>
+					</div>
+
+				</form>
+
+			</div>
+
+		</div>
+
+
+	</div>
+</div>
+<!-- <script src="../../lib/jquery/jquery.min.js"></script>
+  <script src="../../js/main.js"></script>
+
+</body>
+</html> -->

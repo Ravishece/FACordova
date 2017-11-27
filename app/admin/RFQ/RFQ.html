@@ -1,0 +1,360 @@
+<div class="col-sm-12 main-section" ng-controller="RFQCtrl as RFQCtrl">
+	<button type="button" class="btn btn-success btn-rfq"
+		data-toggle="modal" data-target="#createRFQModal"
+		ng-click="RFQCtrl.openRFQModal()">Create a RFQ</button>
+
+	<uib-tabset active="active"> <uib-tab index="0"
+		heading="Open RFQs">
+	<div class="main-tabs">
+		<div class="tab-pane active" id="openRFQ">
+
+			<ul class="media-list rfq-list">
+				<li class="media" ng-repeat="RFQ in RFQCtrl.RFQsOpened"><a
+					class="pull-right" href=""> <img class="media-object rfq-img"
+						ng-src="{{RFQ.product.productImageLocation}}" alt="">
+				</a>
+					<div class="media-body">
+						<h4 class="media-heading">{{RFQ.product.productName}}</h4>
+						<div>
+							<p>{{RFQ.description}}</p>
+							<p>Quantity : {{RFQ.quantity}} {{RFQ.product.productUnit}}</p>
+							<p>Closes on : {{RFQ.closeDate | date }}</p>
+							
+							<p class="rfq-btn-wrapper">
+								<button class="btn btn-primary" type="button"
+									ng-click="RFQCtrl.editRFQButtonClick(RFQ)"
+									data-target="#createRFQModal" data-toggle="modal">
+									Edit RFQ <span class="glyphicon glyphicon-pencil"></span>
+								</button>
+
+								<button class="btn btn-danger" type="button"
+									ng-click="RFQCtrl.closeRFQButtonClick(RFQ)">
+									Close RFQ <span class="glyphicon glyphicon-remove"></span>
+								</button>
+								
+								<button class="btn btn-info" type="button"
+									data-target=".bids-section{{RFQ.rfqId}}" data-toggle="collapse"
+									ng-click="RFQCtrl.viewBidsButtonClick(RFQ.rfqId)">
+									View Quotes
+								</button>
+							</p>
+							
+						</div>
+					</div>
+
+					<div class="bids-section collapse bids-section{{RFQ.rfqId}}"
+						ng-hide='RFQCtrl["RFQ"+RFQ.rfqId+"QuotesAvailable"]'>No
+						Quotes Available</div>
+
+					<div class="bids-section collapse bids-section{{RFQ.rfqId}}"
+						id="bids-section{{RFQ.rfqId}}"
+						ng-show='RFQCtrl["RFQ"+RFQ.rfqId+"QuotesAvailable"]'>
+						<table class="table table-bordered table-striped bids-table">
+							<thead>
+								<tr>
+									<th>Select</th>
+									<th>Name</th>
+									<th>Ratings</th>
+									<th>Quantity</th>
+									<th>Unit Price</th>
+									<!-- <th>Location</th> -->
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="{{quote.status}}-bid"
+									ng-repeat='quote in RFQCtrl["RFQ"+RFQ.rfqId+"Quotes"]'>
+									<td><input ng-show="quote.status === 'OPEN'"
+										type="checkbox" ng-model="quote.status1"
+										ng-value="quote.rfqId" />
+										<div ng-show="quote.status === 'ACCEPTED'">
+											<span class="glyphicon glyphicon-ok"></span>
+										</div>
+										<div ng-show="quote.status === 'REJECTED'">
+											<span class="glyphicon glyphicon-remove"></span>
+										</div>
+									</td>
+									<td>
+										<div>
+											{{quote.supplier.firstName}} {{quote.supplier.lastName}}
+										</div>
+										<div class="mobile-view-only">
+											<span class="pull-left">Ratings : </span><div class="stars stars4"></div>
+										</div>
+										<div class="mobile-view-only">
+											Quantity : {{quote.quantity}} Kgs
+										</div>
+										<div class="mobile-view-only">
+											Unit Price : Rs. {{quote.unitPrice}}
+										</div>	
+									</td>
+									<td><div class="stars stars4"></div></td>
+									<td>{{quote.quantity}} Kgs</td>
+									<td>Rs. {{quote.unitPrice}}</td>
+									<!-- <td>Nellur, Andhra Pradesh, India</td> -->
+								</tr>
+							</tbody>
+						</table>
+						<div class="bids-btn">
+							<button class="btn btn-success btn-sm" type="button"
+								ng-click="RFQCtrl.acceptQuotesButtonClick(RFQ.rfqId)">
+								<!-- data-target="#acceptQuotesModal" data-toggle="modal" > -->
+								<span class="glyphicon glyphicon-ok"></span> Accept Quotes
+							</button>
+							<button class="btn btn-danger btn-sm" type="button"
+								data-target="#rejectBidsModal" data-toggle="modal"
+								ng-click="RFQCtrl.rejectBidsButtonClick(RFQ.rfqId)">
+								<span class="glyphicon glyphicon-remove"></span> Reject Quotes
+							</button>
+						</div>
+					</div>
+					</li>
+			</ul>
+		</div>
+	</div>
+	</uib-tab> <uib-tab index="1" heading="Closed RFQs">
+	<div class="main-tabs">
+		<div class="tab-pane">
+			<ul class="media-list rfq-list">
+				<li class="media" ng-repeat="RFQ in RFQCtrl.RFQsClosed">
+					<a
+						class="pull-right" href=""> <img class="media-object rfq-img"
+							ng-src="{{RFQ.product.productImageLocation}}" alt="">
+					</a>
+					<div class="media-body">
+						<h4 class="media-heading">{{RFQ.product.productName}}</h4>
+						<div>
+							<p>{{RFQ.description}}</p>
+							<p>Quantity : {{RFQ.quantity}}</p>
+							<p>Closed on : {{RFQ.closeDate | date }}</p>
+							<p class="rfq-btn-wrapper">
+								
+								<button class="btn btn-info" type="button"
+									data-target=".bids-section{{RFQ.rfqId}}" data-toggle="collapse"
+									ng-click="RFQCtrl.viewBidsButtonClick(RFQ.rfqId)">
+									View Quotes
+								</button>
+							</p>
+						</div>
+					</div>
+					
+					<div class="bids-section collapse bids-section{{RFQ.rfqId}}"
+						ng-hide='RFQCtrl["RFQ"+RFQ.rfqId+"QuotesAvailable"]'>No
+						Quotes Available</div>
+
+					<div class="bids-section collapse bids-section{{RFQ.rfqId}}"
+						id="bids-section{{RFQ.rfqId}}"
+						ng-show='RFQCtrl["RFQ"+RFQ.rfqId+"QuotesAvailable"]'>
+						<table class="table table-bordered table-striped bids-table">
+							<thead>
+								<tr>
+									<th>Select</th>
+									<th>Name</th>
+									<th>Ratings</th>
+									<th>Quantity</th>
+									<th>Unit Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="{{quote.status}}-bid"
+									ng-repeat='quote in RFQCtrl["RFQ"+RFQ.rfqId+"Quotes"]'>
+									<td>
+										<input ng-show="quote.status === 'OPEN'"
+										type="checkbox" disabled ng-model="quote.status1"
+										ng-value="quote.rfqId" />
+										<div ng-show="quote.status === 'ACCEPTED'">
+											<span class="glyphicon glyphicon-ok"></span>
+										</div>
+										<div ng-show="quote.status === 'REJECTED'">
+											<span class="glyphicon glyphicon-remove"></span>
+										</div>
+									</td>
+									<td>
+										<div>
+											{{quote.supplier.firstName}} {{quote.supplier.lastName}}
+										</div>
+										<div class="mobile-view-only">
+											<span class="pull-left">Ratings : </span><div class="stars stars4"></div>
+										</div>
+										<div class="mobile-view-only">
+											Quantity : {{quote.quantity}} Kgs
+										</div>
+										<div class="mobile-view-only">
+											Unit Price : Rs. {{quote.unitPrice}}
+										</div>	
+									</td>
+									<td><div class="stars stars4"></div></td>
+									<td>{{quote.quantity}} Kgs</td>
+									<td>Rs. {{quote.unitPrice}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+				</li>
+			</ul>
+		</div>
+	</div>
+	</uib-tab> </uib-tabset>
+
+
+	<!-- Modal start - Create RFQ Modal  -->
+	<div id="createRFQModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Request for Quote</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label class="col-form-label" for="RFQDescription">Description</label>
+							<input type="text" class="form-control"
+								ng-model="RFQCtrl.RFQDescriptionInput" id="RFQDescription"
+								placeholder="Description for RFQ">
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="productNameInput">Select
+								Product</label>
+							<div class="dropdown custom-dd">
+								<button class="btn btn-default dropdown-toggle" type="button"
+									data-toggle="dropdown">
+									{{RFQCtrl.selectedRFQProduct}} <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li ng-repeat="obj in RFQCtrl.RFQProductsList"
+										ng-click="RFQCtrl.changeRFQProduct(obj,$event)"><a
+										href="">{{obj.productName}}</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="quantityInput">Quantity</label>
+							<div class="input-group">
+								<input type="text" class="form-control"
+									ng-model="RFQCtrl.RFQQuantityInput" id="quantityInput"
+									placeholder="Quantity"> <span class="input-group-addon">{{RFQCtrl.selectedRFQProductUnit}}</span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-form-label" for="startDateInput">RFQ
+								Start Date</label>
+							<div class="input-group">
+								<input type="text" class="form-control" uib-datepicker-popup
+									ng-model="RFQCtrl.RFQStartDate" is-open="RFQCtrl.popup1.opened"
+									datepicker-options="RFQCtrl.dateOptions" close-text="Close" />
+								<span class="input-group-addon" ng-click="RFQCtrl.open1()"><i
+									class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-form-label" for="startDateInput">RFQ
+								End Date</label>
+							<div class="input-group">
+								<input type="text" class="form-control" uib-datepicker-popup
+									ng-model="RFQCtrl.RFQEndDate" is-open="RFQCtrl.popup2.opened"
+									datepicker-options="RFQCtrl.dateOptions" close-text="Close" />
+								<span class="input-group-addon" ng-click="RFQCtrl.open2()"><i
+									class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success"
+						ng-show="!RFQCtrl.editRFQSelected" data-dismiss="modal"
+						ng-click="RFQCtrl.createRFQ()">Create</button>
+					<button type="button" class="btn btn-success"
+						ng-show="RFQCtrl.editRFQSelected" data-dismiss="modal"
+						ng-click="RFQCtrl.updateRFQ()">Update</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal end - Create RFQ Modal -->
+
+	<!-- Modal start - Delete Quote Modal -->
+	<div class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" aria-hidden="true"
+		id="deleteQuoteConfirmmodal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Are you sure to
+						close this RFQ ?</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						id="modal-btn-yes" ng-click="RFQCtrl.closeRFQ()">Yes</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal"
+						id="modal-btn-no">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal end - Delete Quote Modal -->
+
+	<!-- Modal start - accept Quotes Modal -->
+	<div class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" aria-hidden="true"
+		id="acceptQuotesModal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Notification sent to
+						Collection Center Associate and Farmers</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success btn-sm"
+						data-dismiss="modal" id="modal-btn-yes">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal end - accept Quotes Modal -->
+
+	<!-- Modal start - Reject bids Modal -->
+	<div class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="mySmallModalLabel" aria-hidden="true"
+		id="rejectBidsModal">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Reject Selected Bids</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label class="col-form-label" for="rejectionReasonInput">Reason
+								for Rejection</label>
+							<textarea type="text" class="form-control"
+								ng-model="RFQCtrl.quoteRejectionReason"
+								id="rejectionReasonInput">
+              </textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success btn-sm"
+						data-dismiss="modal" id="modal-btn-yes"
+						ng-click="RFQCtrl.submitRejectedQuotes()">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal end - Reject bids Modal -->
+</div>

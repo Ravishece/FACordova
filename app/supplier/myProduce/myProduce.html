@@ -1,0 +1,152 @@
+<div class="col-sm-12 main-section"
+	ng-controller="myProduceCtrl as myProduceCtrl">
+
+	<button class="btn btn-success btn-rfq" type="button"
+		data-target="#addProduceModal" data-toggle="modal"
+		ng-click="myProduceCtrl.addProduceButtonClick()">Add a
+		Produce</button>
+
+	<uib-tabset active="active"> <uib-tab index="0"
+		heading="My Produces">
+	<div class="main-tabs">
+		<div class="tab-pane active" id="openRFQ">
+
+			<ul class="media-list rfq-list">
+				<li class="media" ng-repeat="product in myProduceCtrl.myProduces">
+					<a class="pull-right" href=""> <img
+						class="media-object rfq-img"
+						ng-src="{{product.product.productImageLocation}}"
+						alt="">
+				</a>
+					<div class="media-body">
+						<h4 class="media-heading">{{product.product.productName}}</h4>
+						<div>
+							<p>{{product.description}}</p>
+							<p>Quantity : {{product.quantity}}
+								{{product.product.productUnit}}</p>
+							<p>Expected Price : {{product.expectedPrice}}</p>
+							<p>Harvest Date : {{product.harvestDate | date }}</p>
+							<p></p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	</uib-tab> </uib-tabset>
+
+
+	<!-- Modal start - Create RFQ Modal  -->
+	<div id="addProduceModal" class="modal fade submit-quote" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Add a Produce</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label class="col-form-label" for="produceDescription">Description</label>
+							<input type="text" class="form-control"
+								ng-model="myProduceCtrl.produceDescription"
+								id="produceDescription" placeholder="Description for Produce">
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="productNameInput">Select
+								Product</label>
+							<div class="dropdown custom-dd">
+								<button class="btn btn-default dropdown-toggle" type="button"
+									data-toggle="dropdown">
+									{{myProduceCtrl.selectedProduct}} <span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li ng-repeat="obj in myProduceCtrl.productsList"
+										ng-click="myProduceCtrl.changeProduct(obj)"><a href="">{{obj.productName}}</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="quantityInput">Quantity</label>
+							<div class="input-group">
+								<input type="text" class="form-control"
+									ng-model="myProduceCtrl.produceQuantity" placeholder="Quantity" />
+								<span class="input-group-addon">Kgs</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="priceInput">Expected
+								Price (per Unit)</label>
+							<div class="input-group">
+								<span class="input-group-addon">Rs.</span> <input type="text"
+									class="form-control" ng-model="myProduceCtrl.produceUnitPrice"
+									placeholder="Price">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="startDateInput">Harvest
+								Date</label>
+							<div class="input-group">
+								<input type="text" class="form-control" uib-datepicker-popup
+									ng-model="myProduceCtrl.produceHarvestDate"
+									is-open="myProduceCtrl.popup1.opened"
+									datepicker-options="myProduceCtrl.dateOptions"
+									close-text="Close" /> <span class="input-group-addon"
+									ng-click="myProduceCtrl.open1()"><i
+									class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<input type="checkbox" name="defaultAddressCheckbox" ng-model="myProduceCtrl.addProduceDefaultAddressValue" 
+							ng-change="myProduceCtrl.addProduceDefaultAddressChange(evt)" />
+							
+							<label class="col-form-label">use Default Address</label>
+						</div>
+						
+						<div ng-show="myProduceCtrl.showLocationDetailsForAddProduce">
+						
+							<div class="form-group">
+								<label class="col-form-label">PinCode</label>
+								<div class="input-group">
+									<input type="text" class="form-control"
+										ng-model="myProduceCtrl.producePinCode" /> <span
+										class="input-group-addon"
+										ng-click="myProduceCtrl.populateAddress()"><i
+										class="glyphicon glyphicon-search"></i></span>
+								</div>
+							</div>
+	
+							<div class="form-group">
+								<label class="col-form-label" for="startDateInput">Country</label>
+								<input type="text" class="form-control"
+									ng-model="myProduceCtrl.produceCountry" />
+							</div>
+	
+							<div class="form-group">
+								<label class="col-form-label" for="startDateInput">State</label>
+								<input type="text" class="form-control"
+									ng-model="myProduceCtrl.produceState" />
+							</div>
+	
+							<div class="form-group">
+								<label class="col-form-label" for="startDateInput">District</label>
+								<input type="text" class="form-control"
+									ng-model="myProduceCtrl.produceDistrict" />
+							</div>
+						</div>
+
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success" data-dismiss="modal"
+						ng-click="myProduceCtrl.addProduceSubmit()">Confirm</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal end - Create RFQ Modal -->
+
+</div>

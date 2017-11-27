@@ -1,0 +1,81 @@
+<div class="col-sm-12 main-section" ng-controller="viewRFQCtrl as viewRFQCtrl">
+    
+    <uib-tabset active="active">
+	  <uib-tab index="0" heading="Open RFQs">
+		<div class="main-tabs">
+   		 <div class="tab-pane active" id="openRFQ">
+
+          <ul class="media-list rfq-list" >
+              <li class="media" ng-repeat="RFQ in viewRFQCtrl.RFQsOpened">
+	                <a class="pull-right" href="">
+	                  <img class="media-object rfq-img" ng-src="{{RFQ.product.productImageLocation}}" alt="">
+	                </a>
+	                <div class="media-body">
+	                  <h4 class="media-heading">{{RFQ.product.productName}}</h4>
+	                  <div>
+	                    <p>{{RFQ.description}}</p>
+	                    <p>Quantity : {{RFQ.quantity}}</p>
+	                    <p>Closes on : {{RFQ.closeDate | date }}</p>
+	                    <p>
+	                      <button class="btn btn-success" type="button" data-target="#createQuoteModal" data-toggle="modal" ng-click="viewRFQCtrl.createQuoteButtonClick(RFQ)">
+	                        Place a Quote
+	                      </button>
+	                    </p>
+	                  </div>
+	                </div>
+                </li>
+            </ul>
+        </div>
+        </div>
+	  </uib-tab>
+	  
+	</uib-tabset>
+
+    
+    <!-- Modal start - Create RFQ Modal  -->
+  <div id="createQuoteModal" class="modal fade submit-quote" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Request for Quote</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label class="col-form-label" for="productNameInput">Product Name</label>
+              <input type="text" class="form-control" ng-value="viewRFQCtrl.selectedRFQProduct" id="productNameInput" disabled placeholder="Product Name">
+            </div>
+            <div class="form-group">
+              <label class="col-form-label" for="quantityInput">Quantity</label>
+              <div class="input-group">
+                <input type="text" class="form-control" ng-model="viewRFQCtrl.quoteQuantity" placeholder="Quantity">
+                <span class="input-group-addon">Kgs</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-form-label" for="priceInput">Unit Price</label>
+              <div class="input-group">
+                  <span class="input-group-addon">Rs.</span>
+                <input type="text" class="form-control"ng-model="viewRFQCtrl.quoteUnitPrice" placeholder="Price">
+              </div>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label" for="startDateInput">Harvest Date</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" uib-datepicker-popup ng-model="viewRFQCtrl.quoteHarvestDate" is-open="viewRFQCtrl.popup1.opened" datepicker-options="viewRFQCtrl.dateOptions" close-text="Close" />
+                  <span class="input-group-addon" ng-click="viewRFQCtrl.open1()"><i class="glyphicon glyphicon-calendar"></i></span>
+                </div>
+              </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="viewRFQCtrl.submitQuote()">Confirm</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal end - Create RFQ Modal -->
+  
+  </div>
