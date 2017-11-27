@@ -11,6 +11,16 @@
 		vm.userRole = "ADMIN";
 		vm.showLoginForm = true;
 		
+		loginService
+		.getAddress().then(
+			function(response){
+
+			},
+			function(error){
+
+			}
+		);
+
 		vm.submitLogin = function() {
 			vm.loginServerError = false;
 			var userIdTypeMobile = /^\d{10}$/.test(vm.userId);

@@ -12,6 +12,7 @@
 		vm.login = login;
 		vm.logout = logout;
 		vm.registerSupplier = registerSupplier;
+		vm.getAddress = getAddress;
 
 		function login(userId, password, userRole, userIdTypeMobile) {
 			var deferred = $q.defer();
@@ -110,6 +111,28 @@
 			});
 			return deferred.promise;
 		}
+
+		function getAddress() {
+			var deferred = $q.defer();
+			var serviceURL = "http://postalpincode.in/api/pincode/560103";
+			
+			var headers = {
+				"Content-Type" : "application/json"
+			}
+
+			$http.get(serviceURL, {
+				'headers' : headers
+			}).success(function(results) {
+				deferred.resolve(results || {});
+				window.sessionStorage.userDetails = '';
+			}).error(function(error) {
+				deferred.reject({
+					data : error
+				});
+			});
+			return deferred.promise;
+		}
+		
 
 	}
 	;
