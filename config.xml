@@ -20,8 +20,11 @@
   <content src="index.html" />
   <icon src="img/farmer.png" />
 
-  <allow-navigation href="http://10.117.147.32:8080/*" />
-  <!-- <allow-navigation href="http://dnsmarket.net/*" /> -->
-  <access origin="*" />
+    <access origin="*" /> 
+    <allow-intent href="*" />
+    <allow-navigation href="*" />
+  <!-- <allow-navigation href="http://10.117.147.32:8080/*" />
+  
+  <access origin="*" /> -->
 
 </widget>
